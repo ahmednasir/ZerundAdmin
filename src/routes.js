@@ -31,6 +31,7 @@ import SignUp from "layouts/authentication/sign-up";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import { ROUTES } from "constants/constants";
 
 const routes = [
   {
@@ -38,7 +39,7 @@ const routes = [
     name: "Dashboard",
     key: "dashboard",
     icon: <Icon fontSize="small">dashboard</Icon>,
-    route: "/dashboard",
+    route: ROUTES.DASHBOARD,
     component: <Dashboard />,
   },
   {
@@ -78,7 +79,7 @@ const routes = [
     name: "Sign In",
     key: "sign-in",
     icon: <Icon fontSize="small">login</Icon>,
-    route: "/authentication/sign-in",
+    route: ROUTES.LOGIN,
     component: <SignIn />,
   },
   {

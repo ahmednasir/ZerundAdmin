@@ -30,6 +30,7 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 // Images
 import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
+import { ROUTES } from "constants/constants";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -76,7 +77,26 @@ export default function App() {
     document.scrollingElement.scrollTop = 0;
   }, [pathname]);
 
+  const isLoggedIn = () => {
+    try {
+      let user = window.sessionStorage.getItem("user");
+      if (!user) {
+        return false;
+      }
+      user = JSON.parse(user);
+      if (!user.token) {
+        return false;
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   const getRoutes = (allRoutes) =>
+    // if (!isLoggedIn()) {
+    //   return <Route to={ROUTES.LOGIN} component={SignIn} />
+    // }
     allRoutes.map((route) => {
       if (route.collapse) {
         return getRoutes(route.collapse);
@@ -88,7 +108,6 @@ export default function App() {
 
       return null;
     });
-
   const configsButton = (
     <MDBox
       display="flex"
@@ -133,7 +152,10 @@ export default function App() {
       {layout === "vr" && <Configurator />}
       <Routes>
         {getRoutes(routes)}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route
+          path="*"
+          element={isLoggedIn ? <Navigate to={ROUTES.DASHBOARD} /> : <Navigate to={ROUTES.LOGIN} />}
+        />
       </Routes>
     </ThemeProvider>
   );
